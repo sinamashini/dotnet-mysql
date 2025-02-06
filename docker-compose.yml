@@ -1,7 +1,22 @@
+version: "3.8"
+
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: MyWebApi
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=server=db;database=MyWebApiDb;user=apiuser;password=api123
+    depends_on:
+      - db
+
   db:
     image: mysql:8.0
-    platform: linux/arm64 # Ensure compatibility with Mac M1
     container_name: mysql-container
     restart: always
     environment:
